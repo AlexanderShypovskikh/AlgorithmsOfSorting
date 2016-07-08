@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_algorithmsofsorting" default="compile.module.algorithmsofsorting">
+  <dirname property="module.algorithmsofsorting.basedir" file="${ant.file.module_algorithmsofsorting}"/>
+  
+  <property name="module.jdk.home.algorithmsofsorting" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.algorithmsofsorting" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.algorithmsofsorting" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.algorithmsofsorting" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="algorithmsofsorting.output.dir" value="${module.algorithmsofsorting.basedir}/out/production/AlgorithmsOfSorting"/>
+  <property name="algorithmsofsorting.testoutput.dir" value="${module.algorithmsofsorting.basedir}/out/test/AlgorithmsOfSorting"/>
+  
+  <path id="algorithmsofsorting.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="algorithmsofsorting.module.production.classpath">
+    <path refid="${module.jdk.classpath.algorithmsofsorting}"/>
+  </path>
+  
+  <path id="algorithmsofsorting.runtime.production.module.classpath">
+    <pathelement location="${algorithmsofsorting.output.dir}"/>
+  </path>
+  
+  <path id="algorithmsofsorting.module.classpath">
+    <path refid="${module.jdk.classpath.algorithmsofsorting}"/>
+    <pathelement location="${algorithmsofsorting.output.dir}"/>
+  </path>
+  
+  <path id="algorithmsofsorting.runtime.module.classpath">
+    <pathelement location="${algorithmsofsorting.testoutput.dir}"/>
+    <pathelement location="${algorithmsofsorting.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.algorithmsofsorting">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.algorithmsofsorting">
+    <patternset refid="excluded.from.module.algorithmsofsorting"/>
+  </patternset>
+  
+  <path id="algorithmsofsorting.module.sourcepath">
+    <dirset dir="${module.algorithmsofsorting.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.algorithmsofsorting" depends="compile.module.algorithmsofsorting.production,compile.module.algorithmsofsorting.tests" description="Compile module AlgorithmsOfSorting"/>
+  
+  <target name="compile.module.algorithmsofsorting.production" depends="register.custom.compilers" description="Compile module AlgorithmsOfSorting; production classes">
+    <mkdir dir="${algorithmsofsorting.output.dir}"/>
+    <javac2 destdir="${algorithmsofsorting.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.algorithmsofsorting}/javac">
+      <compilerarg line="${compiler.args.algorithmsofsorting}"/>
+      <bootclasspath refid="algorithmsofsorting.module.bootclasspath"/>
+      <classpath refid="algorithmsofsorting.module.production.classpath"/>
+      <src refid="algorithmsofsorting.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.algorithmsofsorting"/>
+    </javac2>
+    
+    <copy todir="${algorithmsofsorting.output.dir}">
+      <fileset dir="${module.algorithmsofsorting.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.algorithmsofsorting.tests" depends="register.custom.compilers,compile.module.algorithmsofsorting.production" description="compile module AlgorithmsOfSorting; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.algorithmsofsorting" description="cleanup module">
+    <delete dir="${algorithmsofsorting.output.dir}"/>
+    <delete dir="${algorithmsofsorting.testoutput.dir}"/>
+  </target>
+</project>
